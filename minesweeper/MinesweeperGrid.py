@@ -5,6 +5,7 @@ MINE = 'x'
 
 
 class MinesweeperGrid:
+
     def __init__(self, sizes, mines_cuantities):
         self.sizes = sizes
         self.mines_cuantities = mines_cuantities
@@ -47,7 +48,7 @@ class MinesweeperGrid:
 
         return field_string
 
-    def sweep(self, row, column):
+    def sweep(self, row, column): # return True if it's ok, False if it's a mine
         self.swept.add((row, column))
         if self.grid[row][column] == MINE:
             return False
@@ -84,6 +85,7 @@ class MinesweeperGrid:
 
         return num_near_mines
 
+"""
 grid = MinesweeperGrid(10, 10)
 print(grid.grid)
 grid.sweep(1, 1)
@@ -91,6 +93,4 @@ grid.sweep(1, 2)
 grid.sweep(1, 3)
 grid.sweep(1, 4)
 print(grid)
-#print(grid.get_near_mines(9,0))
-#lista = range(0,10)
-#print(lista)
+"""
