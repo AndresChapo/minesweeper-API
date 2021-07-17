@@ -8,7 +8,6 @@ class MinesweeperGrid:
         self.sizes = sizes
         self.mines_cuantities = mines_cuantities
         self.grid = self.new_grid()
-        #        self.set_values_in_grid()
         self.swept = set()
 
     def new_grid(self):
@@ -46,11 +45,27 @@ class MinesweeperGrid:
 
         return field_string
 
+    def sweep(self, row, column):
+        self.swept.add((row, column))
+        if self.grid[row][column] == MINE:
+            return False
+        elif self.grid[row][column] > 0:
+            return True
 
-grid = MinesweeperGrid(10, 10)
-grid.grid[1][1] = 1
-grid.grid[1][2] = 2
-grid.grid[1][3] = 3
+        from_row = max(0, row - 1)
+        until_row = min(self.sizes - 1, row + 1) + 1
+        for y in range(from_row, until_row):
+            from_column = max(0, column - 1)
+            until_column = min(self.sizes - 1, column + 1) + 1
+            for x in range(from_column, until_column):
+                if (y, x) in self.swept: continue
+                self.sweep(y, x)
+        return True
+
+grid = MinesweeperGrid(10, 50)
 print(grid.grid)
-
+grid.sweep(1, 1)
+grid.sweep(1, 2)
+grid.sweep(1, 3)
+grid.sweep(1, 4)
 print(grid)
