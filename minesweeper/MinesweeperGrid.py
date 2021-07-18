@@ -3,6 +3,7 @@ import random
 VACIO = 0
 MINE = 'x'
 
+
 class MinesweeperGrid:
 
     def __init__(self, sizes, mines_cuantities):
@@ -84,7 +85,7 @@ class MinesweeperGrid:
 
         return num_near_mines
 
-
+"""
 grid = MinesweeperGrid(10, 10)
 print(grid.grid)
 grid.sweep(1, 1)
@@ -92,3 +93,4 @@ grid.sweep(1, 2)
 grid.sweep(1, 3)
 grid.sweep(1, 4)
 print(grid)
+"""
