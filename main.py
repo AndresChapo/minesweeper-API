@@ -23,8 +23,8 @@ class Game:
         while len(self.grid.swept) < max_cuantities_of_sweeps:
             # For debug
             print("holes_done ", len(self.grid.swept))
-            print(self.grid.grid)
-
+            print(str(self.grid.grid))
+            print(str(self.grid.swept))
             # Real game
             print(self.grid)
             row = int(input("Row: "))
@@ -48,5 +48,5 @@ class Game:
 
 if __name__ == '__main__':
     game = Game()
-    game.new_game(10, 10)
+    game.new_game(20, 20)
     game.run_on_console()
