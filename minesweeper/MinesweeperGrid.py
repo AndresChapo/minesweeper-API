@@ -1,8 +1,8 @@
 import random
 
-VACIO = 0
-MINE = 'x'
-
+EMPTY = 0
+MINE = 9
+FLAG = -2 # '?'
 
 class MinesweeperGrid:
 
@@ -17,7 +17,7 @@ class MinesweeperGrid:
         grid = []
         for y in range(self.sizes):
             grid.append([])
-            for x in range(self.sizes): grid[y].append(VACIO)
+            for x in range(self.sizes): grid[y].append(EMPTY)
 
         mines_underground = 0
         while mines_underground < self.mines_cuantities:
