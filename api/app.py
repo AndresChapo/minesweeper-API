@@ -72,6 +72,5 @@ def get_grids(grid_id=""):
     return jsonify(output)
 
 
-
 if __name__ == '__main__':
     app.run()
