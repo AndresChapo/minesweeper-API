@@ -1,10 +1,20 @@
 import random
+from models import Grids
 
 EMPTY = 0
-MINE = 9
+MINE = 9 # 'x' -1
 FLAG = -2 # '?'
 
 class MinesweeperGrid:
+    """"
+                def to_Minesweeper(self, db_grid):  # It gets a db_grid model and return a MinesweeperGrid
+                    self.sizes = db_grid.sizes
+                    self.mines_cuantities = db_grid.mines_cuantities
+                    self.grid = db_grid.grid
+                    self.swept = db_grid.swept
+                    self.game_status = db_grid.game_status
+                    return self
+            """
 
     def __init__(self, sizes, mines_cuantities):
         self.sizes = sizes
@@ -13,6 +23,7 @@ class MinesweeperGrid:
         self.add_points_to_grid()
         self.swept = set()
         self.game_status = 1 # 0 = Game Over; 1 = Game continues; 2 = Win
+
 
     def new_grid(self):
         grid = []
