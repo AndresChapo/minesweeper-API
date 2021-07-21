@@ -12,6 +12,7 @@ class MinesweeperGrid:
         self.grid = self.new_grid()
         self.add_points_to_grid()
         self.swept = set()
+        self.game_status = 1 # 0 = Game Over; 1 = Game continues; 2 = Win
 
     def new_grid(self):
         grid = []
@@ -51,8 +52,10 @@ class MinesweeperGrid:
     def sweep(self, row, column): # return True if it's ok, False if it's a mine
         self.swept.add((row, column))
         if self.grid[row][column] == MINE:
+            self.game_status = 0
             return False
-        elif self.grid[row][column] > 0:
+        elif self.grid[row][column] > 0: # it could be replaced be EMPTY
+            self.check_if_player_won()
             return True
 
         from_row = max(0, row - 1)
@@ -63,7 +66,16 @@ class MinesweeperGrid:
             for x in range(from_column, until_column):
                 if (y, x) in self.swept: continue
                 self.sweep(y, x)
+        self.check_if_player_won()
         return True
+
+    def check_if_player_won(self):
+        max_cuantities_of_sweeps = (self.sizes * self.sizes) - self.mines_cuantities
+        # print("max_cuantities_of_sweeps: ", max_cuantities_of_sweeps)
+        if len(self.swept) < max_cuantities_of_sweeps:
+            self.game_status = 1
+        else:
+            self.game_status = 2
 
     def add_points_to_grid(self):
         rang = range(self.sizes)
@@ -84,13 +96,3 @@ class MinesweeperGrid:
                 if self.grid[y][x] == MINE: num_near_mines += 1
 
         return num_near_mines
-
-"""
-grid = MinesweeperGrid(10, 10)
-print(grid.grid)
-grid.sweep(1, 1)
-grid.sweep(1, 2)
-grid.sweep(1, 3)
-grid.sweep(1, 4)
-print(grid)
-"""

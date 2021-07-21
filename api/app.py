@@ -2,7 +2,8 @@ from flask import Flask, jsonify, request, make_response, abort
 from flask_sqlalchemy import SQLAlchemy
 from config import db, app
 from models import Grids
-
+from data_access_object import *
+from minesweeper.MinesweeperGrid import MinesweeperGrid
 
 @app.route('/test', methods=['GET'])
 def test():
@@ -63,6 +64,16 @@ def put_grids(grid_id=""):
         )
 
 @app.route('/grids', methods=['POST'])
+def post_grids(): # Probably it will be deprecated, because you shouldn't be able to create a grid from de API/frontend. It's a Game class responsability.
+    gridData = request.get_json()
+
+    game_grid = MinesweeperGrid()
+
+    new_game_grids(game_grid)
+    return jsonify(gridData)
+
+""""
+@app.route('/grids', methods=['POST'])
 def post_grids():
     gridData = request.get_json()
     last_grid = db.session.query(Grids).order_by(Grids.id_game.desc()).first()
@@ -72,7 +83,7 @@ def post_grids():
     db.session.add(grid)
     db.session.commit()
     return jsonify(gridData)
-
+"""
 
 @app.route('/grids/delete/<int:grid_id>', methods=['DELETE'])
 def delete_books(grid_id=""):
