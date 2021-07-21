@@ -69,7 +69,7 @@ def post_grids(): # Probably it will be deprecated, because you shouldn't be abl
 
     game_grid = MinesweeperGrid()
 
-    new_game_grids(game_grid)
+    persist_new_grids(game_grid)
     return jsonify(gridData)
 
 """"
