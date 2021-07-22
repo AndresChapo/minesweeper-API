@@ -2,6 +2,16 @@ from config import db
 from models import Grids
 from minesweeper.MinesweeperGrid import MinesweeperGrid
 
+def put_grid_in_directory(grid):
+    currGrid = {}
+    currGrid['id_game'] = grid.id_game
+    currGrid['sizes'] = grid.sizes
+    currGrid['mines_cuantities'] = grid.mines_cuantities
+    currGrid['grid'] = grid._grid
+    currGrid['swept'] = grid._swept
+    currGrid['game_status'] = grid.game_status
+    currGrid['flags'] = grid._flags
+    return currGrid
 
 def Grid_to_Minesweeper(db_grid):  # It gets a db_grid model and return a MinesweeperGrid
     game_grid = MinesweeperGrid(int(db_grid.sizes), int(db_grid.mines_cuantities))

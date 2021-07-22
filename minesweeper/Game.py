@@ -5,7 +5,7 @@ from data_access_object import *
 # OK - add game_status
 # OK - add translators to MinesweeperGrid to db_Grid and vice versa
 # OK new_game(sizes,mines) - save and return the grid
-# play_on_this_grid(id_game,row,column, flag) - save and return the grid
+# OK - play_on_this_grid(id_game,row,column, flag) - save and return the grid
 
 class Game:
 

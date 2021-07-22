@@ -1,15 +1,36 @@
 from flask import Flask, jsonify, request, make_response, abort
 from flask_sqlalchemy import SQLAlchemy
 from config import db, app
+from minesweeper.Game import Game
 from models import Grids
 from data_access_object import *
-from minesweeper.MinesweeperGrid import MinesweeperGrid
+#from minesweeper.MinesweeperGrid import MinesweeperGrid
+
 
 @app.route('/test', methods=['GET'])
 def test():
     return {
         'test': 'test1'
     }
+
+@app.route('/game/new/<int:sizes>/<int:mines>', methods=['GET'])
+def get_game_new(sizes="", mines=""):
+ #   new_game = request.get_json()
+    output = []
+    game = Game()
+    grid = game.new_game_persist(sizes, mines)
+    output.append(put_grid_in_directory(grid))
+    return jsonify(output)
+
+@app.route('/game/play/<int:grid_id>/<int:row>/<int:column>/<int:flag>', methods=['PUT'])
+def put_game_play(grid_id="", row="", column="", flag=""):
+#    new_game = request.get_json()
+    output = []
+    game = Game()
+    game.play_on_this_grid(grid_id, row, column, flag)
+    output.append(put_grid_in_directory(get_one_grid(grid_id)))
+    return jsonify(output)
+
 
 
 @app.route('/grids', methods=['GET'])
@@ -19,25 +40,11 @@ def get_grids(grid_id=""):
     if grid_id == "":
         allGrids = Grids.query.all()
         for grid in allGrids:
-            currGrid = {}
-            currGrid['id_game'] = grid.id_game
-            currGrid['sizes'] = grid.sizes
-            currGrid['mines_cuantities'] = grid.mines_cuantities
-            currGrid['grid'] = grid.grid
-            currGrid['swept'] = grid.swept
-            currGrid['game_status'] = grid.game_status
-            output.append(currGrid)
+            output.append(put_grid_in_directory(grid))
     else:
         grid = Grids.query.filter(Grids.id_game == grid_id).one_or_none()
         if grid is not None:
-            currGrid = {}
-            currGrid['id_game'] = grid.id_game
-            currGrid['sizes'] = grid.sizes
-            currGrid['mines_cuantities'] = grid.mines_cuantities
-            currGrid['grid'] = grid.grid
-            currGrid['swept'] = grid.swept
-            currGrid['game_status'] = grid.game_status
-            output.append(currGrid)
+            output.append(put_grid_in_directory(grid))
         else:
             abort(
                 404,
@@ -67,7 +74,7 @@ def put_grids(grid_id=""):
 def post_grids(): # Probably it will be deprecated, because you shouldn't be able to create a grid from de API/frontend. It's a Game class responsability.
     gridData = request.get_json()
 
-    game_grid = MinesweeperGrid()
+#    game_grid = MinesweeperGrid()
 
     persist_new_grids(game_grid)
     return jsonify(gridData)

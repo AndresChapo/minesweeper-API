@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, make_response, abort
 from flask_sqlalchemy import SQLAlchemy
 import json
 from sqlalchemy.ext.hybrid import hybrid_property
-from config import db, app
+from config import db
 
 
 class Grids(db.Model):

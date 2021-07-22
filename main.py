@@ -28,10 +28,3 @@ if __name__ == '__main__':
 #    print("game Grid: ", game.grid.grid)
 #    print("game Grid[0]: ", game.grid.grid[0])
 #    print("game set swept: ", game.grid.swept)
-""""
-    lista = list(list(x) for x in game.grid.swept) # Convert set with tuples into a list of list
-    print(lista)
-    set_n_tuples = set(tuple(x) for x in lista) # Convert the list of list into a set of tuples
-    print(set_n_tuples)
-"""
-
