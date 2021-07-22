@@ -18,13 +18,16 @@ class Game:
         # 2. validate_coordinates
         if self.validate_coordinates(row, column) is False: return -1
         # 3. check that is not a flag
-        # 4. sweep
-        self.grid.sweep(row, column)
-        # 5. Chek if the game ended
-        if self.grid.game_status != 1:
-            for y in range(self.grid.sizes):
-                for x in range(self.grid.sizes):
-                    self.grid.swept.add((y, x))  # clean the board
+        if flag == 1:
+            self.grid.plant_flag(row, column)
+        else:
+            # 4. sweep
+            self.grid.sweep(row, column)
+            # 5. Chek if the game ended
+            if self.grid.game_status != 1:
+                for y in range(self.grid.sizes):
+                    for x in range(self.grid.sizes):
+                        self.grid.swept.add((y, x))  # clean the board
         # 5. persist (update)
         update_grid(id_game, self.grid)
         # 6. return something
@@ -73,12 +76,17 @@ class Game:
         db_grid = self.new_game_persist(sizes, mines)
         while self.grid.game_status == 1:
             # For debug
-
+            print("Holes done(swept): ", len(self.grid.swept))
+            print("Flags: ", list(self.grid.flags))
+            print(str(self.grid.grid))
+            print('#' * 50)
+            print(list(str(l) for l in range(0, self.grid.sizes)))
             # Real game
             print(self.grid)
             row = int(input("Row: "))
             column = int(input("Column: "))
-            if self.play_on_this_grid(db_grid.id_game,row,column,0) == -1:
+            flag = int(input("Is it a flag? (1/0): "))
+            if self.play_on_this_grid(db_grid.id_game, row, column, flag) == -1:
                 print("Invalid coordinates!")
                 continue
 
