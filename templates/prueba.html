@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        fetch('/grids/1',{ method: 'GET'}).then(function (response) {
+            return response.json();
+        }).then(function (obj) {
+            console.log(obj);
+        }).catch(function (error) {
+            console.error("Error con el JSON");
+            console.error(error);
+        });
+    </script>
+</body>
+</html>
