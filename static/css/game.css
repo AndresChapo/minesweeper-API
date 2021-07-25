@@ -1,15 +1,18 @@
 :root {
     --bombColor:red;
     --backColor: #0d042b;
+    --backPageColor: #0d042b;
     --mainColorViolet: #3e0248;
-    --mainColor: darkgreen;
-    --emptyColor: rgb(184, 179, 179);
+    --mainColor: rgb(84, 68, 236);
+    --emptyColor: #fffffff3;
+    --borderBold: 1px;
 }
 body {
     margin: 0;
     padding: 0;
     color: var(--mainColor);
     font-family: sans-serif;
+    background-color: var(--backPageColor);
 }
 
 * {
@@ -44,15 +47,18 @@ h1 {
     justify-content: center;
     align-items: center;
     font-size: 22px;
+    font-style: italic;
+    font-weight: bold;
     color: var(--mainColor);
+    border-bottom:  var(--borderBold) solid var(--mainColor);
+    border-top:     var(--borderBold) solid var(--mainColor);
+    border-left:    var(--borderBold) solid var(--mainColor);
+    border-right:   var(--borderBold) solid var(--mainColor);
     background-color: var(--backColor);
-    border-bottom: 2px solid var(--mainColor);
-    border-top: 2px solid var(--mainColor);
-    border-left: 2px solid var(--mainColor);
-    border-right: 2px solid var(--mainColor);
 }
 
 .box:hover {
     cursor: pointer;
     transform: translateY(-2px);
+    background-color: var(--mainColor);
 }
