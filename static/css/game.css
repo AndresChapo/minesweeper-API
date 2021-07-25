@@ -1,0 +1,58 @@
+:root {
+    --bombColor:red;
+    --backColor: #0d042b;
+    --mainColorViolet: #3e0248;
+    --mainColor: darkgreen;
+    --emptyColor: rgb(184, 179, 179);
+}
+body {
+    margin: 0;
+    padding: 0;
+    color: var(--mainColor);
+    font-family: sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 50px;
+    text-transform: uppercase;
+}
+
+.container {
+    padding: 40px;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#superboard {
+    width: 1251px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.box {
+    height: 25px;
+    width: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    color: var(--mainColor);
+    background-color: var(--backColor);
+    border-bottom: 2px solid var(--mainColor);
+    border-top: 2px solid var(--mainColor);
+    border-left: 2px solid var(--mainColor);
+    border-right: 2px solid var(--mainColor);
+}
+
+.box:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+}

@@ -6,7 +6,7 @@ from models import Grids
 if __name__ == '__main__':
     game = Game()
 # Play the game persisting
-    game.run_on_console_persiting(5, 1)
+    game.run_on_console_persiting(20, 10)
 
 # Get and play this id_game
 #    game.play_on_this_grid(15, 0, 3, 1)
