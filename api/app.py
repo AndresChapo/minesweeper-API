@@ -9,9 +9,9 @@ from data_access_object import *
 # from minesweeper.MinesweeperGrid import MinesweeperGrid
 
 
-@app.route("/prueba")
-def prueba():
-    return render_template("prueba.html")
+@app.route("/")
+def home():
+    return render_template("game.html")
 
 
 @app.route("/game")

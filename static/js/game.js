@@ -2,10 +2,25 @@ const div_id_game = document.getElementById('id_game');
 const superboard = document.getElementById('superboard');
 var boxes = Array.from(document.getElementsByClassName('box'));
 const statusText = document.getElementById('statusText');
-const flag_on = document.getElementById('flag_onBtn');
+const flag_onBtn = document.getElementById('flag_onBtn');
 const txtSize = document.getElementById('txtSize');
 const txtMines = document.getElementById('txtMines');
-//var new_game_flag = false;
+const txtGame_id = document.getElementById('txtGame_id');
+const resume_gameBtn = document.getElementById('resume_gameBtn');
+const new_gameBtn = document.getElementById('new_gameBtn');
+
+
+// OK - grid variables 
+// OK - func contruya visible grid
+// OK - func que resete el grid
+// OK - css decorar boxes basico
+// OK - func que actualiza
+// OK - func nuevo juego
+// OK - func retomar juego
+// OK - func que informa status del juego
+// - validar func retomar juego
+// - CSS mas lindo
+// - subir a prod
 // Grid content:
 
 class GridGame {
@@ -41,16 +56,6 @@ class GridGame {
     }
 };
 let currentGame = new GridGame();
-
-
-// OK - grid variables 
-// OK - func contruya visible grid
-// OK - func que resete el grid
-// OK - css decorar boxes basico
-// OK - func que actualiza
-// OK - func nuevo juego
-// func retomar juego
-// func que informa status del juego
 
 const drawEmptyBoard = (sizes) => {
     if(boxes.length > 0){
@@ -119,6 +124,7 @@ const showData = (data) => {
     drawEmptyBoard(currentGame.sizes);
     print_flags(currentGame.sizes, currentGame.flags);
     print_swepts(currentGame.sizes,currentGame.swept, currentGame.grid);
+    check_if_player_won(currentGame.game_status);
 };
 
 const print_swepts = (sizes, swept, grid) => {
@@ -158,33 +164,38 @@ const id_box_to_coordinates = (size, id) => {
 
 const boxClicked = (e) => {
     console.log(e.target.id);
-    console.log(e);
-    var click_on = id_box_to_coordinates(currentGame.sizes,e.target.id);
+    if(currentGame.game_status==1){
+        var click_on = id_box_to_coordinates(currentGame.sizes,e.target.id);
 
-    if(flag_onBtn.innerText == "Flag OFF"){
-        updateGameAPI(currentGame.id_game,click_on[0],click_on[1],0);
-    }else{
-        updateGameAPI(currentGame.id_game,click_on[0],click_on[1],1);
+        if(flag_onBtn.innerText == "Flag OFF"){
+            updateGameAPI(currentGame.id_game,click_on[0],click_on[1],0);
+        }else{
+            updateGameAPI(currentGame.id_game,click_on[0],click_on[1],1);
+        }
     }
-
 };
 
-const new_game = () => {
-    if(txtSize.value > 4){
-        if(txtMines.value > 0){
+const deleteBoard = () => {
+    boxes.forEach((box, index) =>{
+        box.remove();
+    });
+    boxes = Array.from(document.getElementsByClassName('box'));
+};
+
+const new_gameClick = () => {
+    var max_mines_allowed = (txtSize.value * txtSize.value)/2;
+    if(txtSize.value > 4 && txtSize.value < 26){
+        if(txtMines.value > 0 && txtMines.value <= max_mines_allowed){
     //    new_game_flag = true;
-            boxes.forEach((box, index) =>{
-                box.remove();
-            });
-            boxes = Array.from(document.getElementsByClassName('box'));
+            deleteBoard();
             newGameAPI(txtSize.value,txtMines.value);
             txtSize.value = '';
             txtMines.value = '';
         }else{
-            console.log("The minimum of mines is 1");
+            console.log("The minimum of mines is 1, the maximum for this size is:"+ parseInt(max_mines_allowed));
         }
     }else{
-        console.log("The minimun size is 5")
+        console.log("The minimun size is 5, the maximum is 100")
     }
 };
 
@@ -195,10 +206,26 @@ const flagClick = () => {
         flag_onBtn.innerText = "Flag OFF";
     }
 };
+const resume_gameClick = () => {
+    if(txtGame_id.value  > 0){
+        deleteBoard();
+        getGridAPI(txtGame_id.value);
+    }else{
+        console.log("The minimun has to be 1")
+    }
+};
+const check_if_player_won = (status) => {
+    if(status == 0){
+        statusText.innerText = "You lose!";
+    }else if(status == 1){
+        statusText.innerText = "Game ON!";
+    }else if(status == 2){
+        statusText.innerText = "You Win!";
+    }
+};
 
-new_gameBtn.addEventListener('click', new_game);
+new_gameBtn.addEventListener('click', new_gameClick);
 flag_onBtn.addEventListener('click', flagClick);
+resume_gameBtn.addEventListener('click', resume_gameClick);
 
-getGridAPI(12);
-//showData(currentGame);
 
