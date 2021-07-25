@@ -1,9 +1,11 @@
 const div_id_game = document.getElementById('id_game');
 const superboard = document.getElementById('superboard');
-const boxes = Array.from(document.getElementsByClassName('box'));
+var boxes = Array.from(document.getElementsByClassName('box'));
 const statusText = document.getElementById('statusText');
-
-// otra opcion era haccer full_grid.push() 
+const flag_on = document.getElementById('flag_onBtn');
+const txtSize = document.getElementById('txtSize');
+const txtMines = document.getElementById('txtMines');
+//var new_game_flag = false;
 // Grid content:
 
 class GridGame {
@@ -43,10 +45,10 @@ let currentGame = new GridGame();
 
 // OK - grid variables 
 // OK - func contruya visible grid
-// func que resete el grid
-// css decorar boxes basico
-// func que actualiza
-// func nuevo juego
+// OK - func que resete el grid
+// OK - css decorar boxes basico
+// OK - func que actualiza
+// OK - func nuevo juego
 // func retomar juego
 // func que informa status del juego
 
@@ -71,7 +73,7 @@ const drawEmptyBoard = (sizes) => {
 
 };
 
-const getGrid = (id) => {
+const getGridAPI = (id) => {
     fetch('/grids/'+id, { method: 'GET'})
     .then(response => response.json())
     .then(data =>     showData(data[0]))
@@ -81,10 +83,20 @@ const getGrid = (id) => {
     });
 };
 
-const updateGame = (grid_id,row,column,flag) => {
+const updateGameAPI = (grid_id,row,column,flag) => {
     fetch('/game/play/'+grid_id+'/'+row+'/'+column+'/'+flag, { method: 'PUT'})
     .then(response => response.json())
-    .then(data => showData(data))
+    .then(data => showData(data[0]))
+    .catch(function (error) {
+        console.error("Error with JSON");
+        console.error(error);
+    });
+};
+
+const newGameAPI = (sizes,mines) => {
+    fetch('/game/new/'+sizes+'/'+mines, { method: 'GET'})
+    .then(response => response.json())
+    .then(data => showData(data[0]))
     .catch(function (error) {
         console.error("Error with JSON");
         console.error(error);
@@ -93,16 +105,7 @@ const updateGame = (grid_id,row,column,flag) => {
 
 const showData = (data) => {
 //    console.log(data);
-    currentGame.importGrid(data)
-/*
-    id_game = data[0].id_game;
-    sizes = data[0].sizes;
-    mines_cuantities = data[0].mines_cuantities;
-    grid = JSON.parse(data[0].grid);
-    flags = JSON.parse(data[0].flags);
-    swept = JSON.parse(data[0].swept);
-    game_status = data[0].game_status;
-*/  
+    currentGame.importGrid(data);
 
     console.log("id_game: "+currentGame.id_game);
     console.log("sizes: "+currentGame.sizes);
@@ -116,8 +119,6 @@ const showData = (data) => {
     drawEmptyBoard(currentGame.sizes);
     print_flags(currentGame.sizes, currentGame.flags);
     print_swepts(currentGame.sizes,currentGame.swept, currentGame.grid);
-
-
 };
 
 const print_swepts = (sizes, swept, grid) => {
@@ -125,10 +126,12 @@ const print_swepts = (sizes, swept, grid) => {
         pos = coordenates_to_id(sizes, sweptx[0],sweptx[1]);
         score = grid[sweptx[0]][sweptx[1]];
         boxes[pos].style = 'background-color: var(--emptyColor);';
-        if (score != 0){
-            boxes[pos].innerText = score;
-        }else{
+        if (score == 0){
             boxes[pos].innerText = '';
+        }else if(score == 9){
+            boxes[pos].innerText = 'x';
+        }else{
+            boxes[pos].innerText = score;
         }
     })
 };
@@ -141,34 +144,61 @@ const print_flags = (sizes, flags) => {
     })
 };
 
-const coordenates_to_id = (size, x, y) => {
+const coordenates_to_id = (size, row, column) => {
     //1,1 = 6 = (size * x) + y
-    return (size * x) + y;
+    return (size * row) + column;
 };
 
 const id_box_to_coordinates = (size, id) => {
-    var x = (id%size);
-    var y = parseInt(id/size);
-    console.log("id_box_to_coordinates- X: ",x);
-    console.log("id_box_to_coordinates- Y: ",y);
-    return x, y;
+    var click_on = [];
+    click_on.push(parseInt(id/size));
+    click_on.push(id%size);
+    return click_on;
 };
 
-const boxClicked = (x) => {
-    console.log(x.target.id);
-    id_box_to_coordinates(10,x.target.id);
-//    updateGame(div_id_game.innerText,1,9,1);
+const boxClicked = (e) => {
+    console.log(e.target.id);
+    console.log(e);
+    var click_on = id_box_to_coordinates(currentGame.sizes,e.target.id);
+
+    if(flag_onBtn.innerText == "Flag OFF"){
+        updateGameAPI(currentGame.id_game,click_on[0],click_on[1],0);
+    }else{
+        updateGameAPI(currentGame.id_game,click_on[0],click_on[1],1);
+    }
 
 };
 
-const restart = () => {
-    console.log("currentGame.id_game: ", currentGame.id_game);
-    console.log("currentGame.grid: ", currentGame.grid);
+const new_game = () => {
+    if(txtSize.value > 4){
+        if(txtMines.value > 0){
+    //    new_game_flag = true;
+            boxes.forEach((box, index) =>{
+                box.remove();
+            });
+            boxes = Array.from(document.getElementsByClassName('box'));
+            newGameAPI(txtSize.value,txtMines.value);
+            txtSize.value = '';
+            txtMines.value = '';
+        }else{
+            console.log("The minimum of mines is 1");
+        }
+    }else{
+        console.log("The minimun size is 5")
+    }
 };
 
-restartBtn.addEventListener('click', restart);
+const flagClick = () => {
+    if(flag_onBtn.innerText == "Flag OFF"){
+        flag_onBtn.innerText = "Flag ON";
+    }else{
+        flag_onBtn.innerText = "Flag OFF";
+    }
+};
 
+new_gameBtn.addEventListener('click', new_game);
+flag_onBtn.addEventListener('click', flagClick);
 
-getGrid(12);
+getGridAPI(12);
 //showData(currentGame);
 
