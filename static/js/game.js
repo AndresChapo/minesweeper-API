@@ -3,21 +3,16 @@ const superboard = document.getElementById('superboard');
 var boxes = Array.from(document.getElementsByClassName('box'));
 const statusText = document.getElementById('statusText');
 const flag_onBtn = document.getElementById('flag_onBtn');
-const txtSize = document.getElementById('txtSize');
-const txtMines = document.getElementById('txtMines');
+const rangeSize = document.getElementById('rangeSize');
+const rangeMines = document.getElementById('rangeMines');
 const txtGame_id = document.getElementById('txtGame_id');
 const resume_gameBtn = document.getElementById('resume_gameBtn');
 const new_gameBtn = document.getElementById('new_gameBtn');
-
-
-// OK - documented RESTful API
-// OK - validar func retomar juego
-// - CSS mas lindo
-// - Mensajes de error
-// - Time tracking
-
-
-// Grid content:
+const modalBtn = document.getElementById('modalBtn');
+const messageModalLabel = document.getElementById('messageModalLabel');
+const messageModalBody = document.getElementById('messageModalBody');
+const FLAG_ON = "FLAG MODE ON";
+const FLAG_OFF = "DIG MODE ON";
 
 class GridGame {
     id_game = 0;
@@ -53,6 +48,12 @@ class GridGame {
 };
 let currentGame = new GridGame();
 
+function openModal(title,message) {
+    messageModalLabel.innerText = title;
+    messageModalBody.innerText = message;
+    modalBtn.click();
+};
+
 const drawEmptyBoard = (sizes) => {
     if(boxes.length > 0){
         console.log("boxes.length: ",boxes.length);
@@ -80,6 +81,7 @@ const getGridAPI = (id) => {
     .catch(function (error) {
         console.error("Error with JSON");
         console.error(error);
+        openModal("Not found!","That game does not exist.");
     });
 };
 
@@ -164,7 +166,7 @@ const boxClicked = (e) => {
     if(currentGame.game_status==1){
         var click_on = id_box_to_coordinates(currentGame.sizes,e.target.id);
 
-        if(flag_onBtn.innerText == "Flag OFF"){
+        if(flag_onBtn.innerText == FLAG_OFF){
             updateGameAPI(currentGame.id_game,click_on[0],click_on[1],0);
         }else{
             updateGameAPI(currentGame.id_game,click_on[0],click_on[1],1);
@@ -181,49 +183,61 @@ const deleteBoard = () => {
 };
 
 const new_gameClick = () => {
-    var max_mines_allowed = (txtSize.value * txtSize.value)/2;
-    if(txtSize.value > 4 && txtSize.value < 26){
-        if(txtMines.value > 0 && txtMines.value <= max_mines_allowed){
-    //    new_game_flag = true;
+    var max_mines_allowed = (rangeSize.value * rangeSize.value)/2;
+    if(rangeSize.value > 4 && rangeSize.value < 26){
+        if(rangeMines.value > 0 && rangeMines.value <= max_mines_allowed){
             deleteBoard();
-            newGameAPI(txtSize.value,txtMines.value);
-            txtSize.value = '';
-            txtMines.value = '';
+            newGameAPI(rangeSize.value,rangeMines.value);
+//            rangeSize.value = 10;
+//            rangeMines.value = 10;
         }else{
             console.log("The minimum of mines is 1, the maximum for this size is:"+ parseInt(max_mines_allowed));
+            openModal("You can't do that!","The minimum of mines is 1, the maximum for this size is:"+ parseInt(max_mines_allowed));
         }
     }else{
-        console.log("The minimun size is 5, the maximum is 100")
+        console.log("The minimun size is 5, the maximum is 100");
+        openModal("You can't do that!","The minimun size is 5, the maximum is 100");
     }
 };
 
-const flagClick = () => {
-    if(flag_onBtn.innerText == "Flag OFF"){
-        flag_onBtn.innerText = "Flag ON";
-    }else{
-        flag_onBtn.innerText = "Flag OFF";
-    }
-};
 const resume_gameClick = () => {
     if(txtGame_id.value  > 0){
         deleteBoard();
         getGridAPI(txtGame_id.value);
     }else{
         console.log("The minimun has to be 1")
+        openModal("You can't do that!","The minimun has to be 1");
     }
 };
 const check_if_player_won = (status) => {
     if(status == 0){
         statusText.innerText = "You lose!";
+        openModal("Game","You lose!");
+        statusText.style = 'color: red;';
     }else if(status == 1){
         statusText.innerText = "Game ON!";
+        statusText.style = 'color: var(--emptyColor);';
     }else if(status == 2){
         statusText.innerText = "You Win!";
+        statusText.style = 'color: green;';
+        openModal("Game","You Win!");
     }
 };
 
+
+const flagClick = () => {
+    if(flag_onBtn.innerText == FLAG_OFF){
+        flag_onBtn.innerText = FLAG_ON;
+        flag_onBtn.style = 'background-color: var(--emptyColor); color: black;';
+    }else{
+        flag_onBtn.innerText = FLAG_OFF;
+        flag_onBtn.style = 'background-color: var(--backColor); color: white;';
+    }    
+};
 new_gameBtn.addEventListener('click', new_gameClick);
 flag_onBtn.addEventListener('click', flagClick);
 resume_gameBtn.addEventListener('click', resume_gameClick);
 
-
+rangeSize.value = 10;
+rangeMines.value = 10;
+newGameAPI(10,10);
