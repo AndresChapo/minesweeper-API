@@ -1,6 +1,6 @@
 :root {
     --bombColor:red;
-    --backColor: #0d042b;
+    --backColor: #160842;
     --backPageColor: #0d042b;
     --mainColorViolet: #3e0248;
     --mainColor: rgb(84, 68, 236);
@@ -56,9 +56,34 @@ h1 {
     border-right:   var(--borderBold) solid var(--mainColor);
     background-color: var(--backColor);
 }
+input {
+    padding: 7px 10px;
+    border-radius: 5px;
+    background-color: var(--emptyColor);
+    border-color: var(--backColor);
+    font-size: 14px;
+    font-weight: bold;
+/*    max-block-size: 50px;*/
+    max-inline-size: 65px;
+}
+button {
+    padding: 7px 10px;
+    border-radius: 5px;
+    background-color: var(--backColor);
+    color: white;
+    border-color: var(--backColor);
+    font-size: 18px;
+    transition: 200ms transform;
+}
+
+button:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+}
 
 .box:hover {
     cursor: pointer;
     transform: translateY(-2px);
     background-color: var(--mainColor);
 }
+

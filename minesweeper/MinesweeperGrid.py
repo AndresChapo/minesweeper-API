@@ -1,8 +1,8 @@
 import random
 from models import Grids
 
-EMPTY = 0
-MINE = 9 # 'x' -1
+EMPTY = 0 # '.'
+MINE = 9 # 'x'
 FLAG = '?'
 
 class MinesweeperGrid:

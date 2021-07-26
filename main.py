@@ -1,4 +1,4 @@
-from data_access_object import *
+from data_access import *
 from minesweeper.Game import Game
 from minesweeper.MinesweeperGrid import MinesweeperGrid
 from models import Grids

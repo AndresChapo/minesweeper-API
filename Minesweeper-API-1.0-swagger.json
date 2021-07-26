@@ -1,0 +1,297 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Minesweeper-API",
+    "description" : "Posible types of requests for the Minesweeper-API",
+    "version" : "1.0",
+    "contact" : {
+      "email" : "zource.code@gmail.com",
+      "name" : "Andres Nicolas Chapo",
+      "url" : "chapo.com.ar"
+    },
+    "license" : {
+      "url" : "-",
+      "name" : "-"
+    }
+  },
+  "servers" : [ {
+    "url" : "http://127.0.0.1:5000"
+  } ],
+  "paths" : {
+    "/grids/delete/<int:grid_id>" : {
+      "delete" : {
+        "description" : "Removes an instance from the database according to the given ID",
+        "responses" : {
+          "200" : {
+            "description" : "Everything went well",
+            "content" : {
+              "text/html; charset=utf-8" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "examples" : { }
+              }
+            }
+          }
+        },
+        "servers" : [ {
+          "url" : "http://127.0.0.1:5000"
+        } ]
+      },
+      "servers" : [ {
+        "url" : "http://127.0.0.1:5000"
+      } ]
+    },
+    "/grids/<int:grid_id>" : {
+      "get" : {
+        "description" : "It brings a Grid instance according to the given ID",
+        "responses" : {
+          "200" : {
+            "description" : "Everything went well",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : { }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "[\n  {\n    \"flags\": \"[[3, 1], [2, 2], [1, 3], [4, 1]]\", \n    \"game_status\": 1, \n    \"grid\": \"[[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [1, 1, 1, 0, 0], [1, 9, 1, 0, 0], [1, 1, 1, 0, 0]]\", \n    \"id_game\": 1, \n    \"mines_cuantities\": 1, \n    \"sizes\": 5, \n    \"swept\": \"[[4, 0], [3, 4], [4, 3], [0, 2], [2, 2], [1, 0], [1, 3], [4, 2], [3, 0], [3, 3], [0, 1], [2, 4], [1, 2], [0, 4], [2, 1], [3, 2], [4, 4], [0, 0], [1, 1], [0, 3], [2, 0], [1, 4], [2, 3]]\"\n  }\n]\n"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers" : [ {
+          "url" : "http://127.0.0.1:5000"
+        } ]
+      },
+      "servers" : [ {
+        "url" : "http://127.0.0.1:5000"
+      } ]
+    },
+    "/game/play/<int:grid_id>/<int:row>/<int:column>/<int:flag>" : {
+      "put" : {
+        "description" : "It updates the Grid instance according to the given ID and the coordinates",
+        "responses" : {
+          "200" : {
+            "description" : "Everything went well",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : { }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "[\n  {\n    \"flags\": \"[[3, 1], [2, 2], [1, 3], [4, 1]]\", \n    \"game_status\": 1, \n    \"grid\": \"[[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [1, 1, 1, 0, 0], [1, 9, 1, 0, 0], [1, 1, 1, 0, 0]]\", \n    \"id_game\": 1, \n    \"mines_cuantities\": 1, \n    \"sizes\": 5, \n    \"swept\": \"[[4, 0], [3, 4], [4, 3], [0, 2], [2, 2], [1, 0], [1, 3], [4, 2], [3, 0], [3, 3], [0, 1], [2, 4], [1, 2], [0, 4], [2, 1], [3, 2], [4, 4], [0, 0], [1, 1], [0, 3], [2, 0], [1, 4], [2, 3]]\"\n  }\n]\n"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers" : [ {
+          "url" : "http://127.0.0.1:5000"
+        } ]
+      },
+      "servers" : [ {
+        "url" : "http://127.0.0.1:5000"
+      } ]
+    },
+    "/grids" : {
+      "get" : {
+        "description" : "It brings all the Grid instances",
+        "responses" : {
+          "200" : {
+            "description" : "Everything went well"
+          }
+        },
+        "servers" : [ {
+          "url" : "http://127.0.0.1:5000"
+        } ]
+      },
+      "post" : {
+        "description" : "Creates a new game grid acording the given JSON",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "game_status" : {
+                    "type" : "integer"
+                  },
+                  "sizes" : {
+                    "type" : "integer"
+                  },
+                  "grid" : {
+                    "type" : "string"
+                  },
+                  "mines_cuantities" : {
+                    "type" : "integer"
+                  },
+                  "flags" : {
+                    "type" : "string"
+                  },
+                  "swept" : {
+                    "type" : "string"
+                  },
+                  "id_game" : {
+                    "type" : "integer"
+                  }
+                }
+              },
+              "examples" : {
+                "0" : {
+                  "value" : "  {\n    \"flags\": \"[[7, 4], [4, 7], [2, 2]]\",\n    \"game_status\": 1,\n    \"grid\": \"[[9, 2, 1, 0, 0, 1, 1, 1, 0, 0], [2, 9, 1, 0, 0, 1, 9, 1, 0, 0], [1, 2, 2, 1, 0, 1, 1, 1, 0, 0], [0, 1, 9, 2, 1, 2, 1, 1, 0, 0], [0, 2, 2, 3, 9, 2, 9, 1, 0, 0], [0, 1, 9, 2, 1, 2, 1, 1, 0, 0], [1, 2, 1, 1, 0, 0, 0, 0, 0, 0], [9, 2, 1, 1, 0, 0, 0, 0, 0, 0], [1, 2, 9, 1, 0, 0, 0, 1, 1, 1], [0, 1, 1, 1, 0, 0, 0, 1, 9, 1]]\",\n    \"id_game\": 50,\n    \"mines_cuantities\": 10,\n    \"sizes\": 10,\n    \"swept\": \"[[2, 4], [1, 2], [0, 4], [3, 4], [1, 5], [0, 3], [1, 4], [2, 3], [0, 2], [3, 3], [0, 5], [2, 2], [2, 5], [1, 3], [3, 5]]\"\n  }"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Everything went well",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "game_status" : {
+                      "type" : "integer"
+                    },
+                    "sizes" : {
+                      "type" : "integer"
+                    },
+                    "grid" : {
+                      "type" : "string"
+                    },
+                    "mines_cuantities" : {
+                      "type" : "integer"
+                    },
+                    "flags" : {
+                      "type" : "string"
+                    },
+                    "swept" : {
+                      "type" : "string"
+                    },
+                    "id_game" : {
+                      "type" : "integer"
+                    }
+                  }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\n  \"flags\": \"[[7, 4], [4, 7], [2, 2]]\", \n  \"game_status\": 1, \n  \"grid\": \"[[9, 2, 1, 0, 0, 1, 1, 1, 0, 0], [2, 9, 1, 0, 0, 1, 9, 1, 0, 0], [1, 2, 2, 1, 0, 1, 1, 1, 0, 0], [0, 1, 9, 2, 1, 2, 1, 1, 0, 0], [0, 2, 2, 3, 9, 2, 9, 1, 0, 0], [0, 1, 9, 2, 1, 2, 1, 1, 0, 0], [1, 2, 1, 1, 0, 0, 0, 0, 0, 0], [9, 2, 1, 1, 0, 0, 0, 0, 0, 0], [1, 2, 9, 1, 0, 0, 0, 1, 1, 1], [0, 1, 1, 1, 0, 0, 0, 1, 9, 1]]\", \n  \"id_game\": 50, \n  \"mines_cuantities\": 10, \n  \"sizes\": 10, \n  \"swept\": \"[[2, 4], [1, 2], [0, 4], [3, 4], [1, 5], [0, 3], [1, 4], [2, 3], [0, 2], [3, 3], [0, 5], [2, 2], [2, 5], [1, 3], [3, 5]]\"\n}\n"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers" : [ {
+          "url" : "http://127.0.0.1:5000"
+        } ]
+      },
+      "servers" : [ {
+        "url" : "http://127.0.0.1:5000"
+      } ]
+    },
+    "/game/new/<int:sizes>/<int:mines>" : {
+      "get" : {
+        "description" : "Creates a new game grid acording the given numbers of Size and Mines",
+        "responses" : {
+          "200" : {
+            "description" : "The grid was successfully created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : { }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "[\n  {\n    \"flags\": \"[]\", \n    \"game_status\": 1, \n    \"grid\": \"[[1, 1, 1, 9, 9], [9, 1, 1, 2, 2], [2, 2, 1, 1, 1], [1, 9, 1, 1, 9], [1, 1, 1, 1, 1]]\", \n    \"id_game\": 48, \n    \"mines_cuantities\": 5, \n    \"sizes\": 5, \n    \"swept\": \"[]\"\n  }\n]\n"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers" : [ {
+          "url" : "http://127.0.0.1:5000"
+        } ]
+      },
+      "servers" : [ {
+        "url" : "http://127.0.0.1:5000"
+      } ]
+    },
+    "/grids/update/<int:grid_id>" : {
+      "put" : {
+        "description" : "Updates a grid according de given ID and the given JSON",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "game_status" : {
+                    "type" : "integer"
+                  },
+                  "sizes" : {
+                    "type" : "integer"
+                  },
+                  "grid" : {
+                    "type" : "string"
+                  },
+                  "mines_cuantities" : {
+                    "type" : "integer"
+                  },
+                  "flags" : {
+                    "type" : "string"
+                  },
+                  "swept" : {
+                    "type" : "string"
+                  },
+                  "id_game" : {
+                    "type" : "integer"
+                  }
+                }
+              },
+              "examples" : {
+                "0" : {
+                  "value" : "  {\n    \"flags\": \"[[7, 4], [4, 7], [2, 2]]\",\n    \"game_status\": 1,\n    \"grid\": \"[[9, 2, 1, 0, 0, 1, 1, 1, 0, 0], [2, 9, 1, 0, 0, 1, 9, 1, 0, 0], [1, 2, 2, 1, 0, 1, 1, 1, 0, 0], [0, 1, 9, 2, 1, 2, 1, 1, 0, 0], [0, 2, 2, 3, 9, 2, 9, 1, 0, 0], [0, 1, 9, 2, 1, 2, 1, 1, 0, 0], [1, 2, 1, 1, 0, 0, 0, 0, 0, 0], [9, 2, 1, 1, 0, 0, 0, 0, 0, 0], [1, 2, 9, 1, 0, 0, 0, 1, 1, 1], [0, 1, 1, 1, 0, 0, 0, 1, 9, 1]]\",\n    \"id_game\": 50,\n    \"mines_cuantities\": 10,\n    \"sizes\": 10,\n    \"swept\": \"[[2, 4], [1, 2], [0, 4], [3, 4], [1, 5], [0, 3], [1, 4], [2, 3], [0, 2], [3, 3], [0, 5], [2, 2], [2, 5], [3, 5]]\"\n  }"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Everything went well",
+            "content" : {
+              "text/html; charset=utf-8" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "examples" : { }
+              }
+            }
+          }
+        },
+        "servers" : [ {
+          "url" : "http://127.0.0.1:5000"
+        } ]
+      },
+      "servers" : [ {
+        "url" : "http://127.0.0.1:5000"
+      } ]
+    }
+  },
+  "externalDocs" : {
+    "url" : "https://app.swaggerhub.com/apis-docs/AndresChapo/Minesweeper-API/1.0",
+    "description" : "Documentation"
+  }
+}

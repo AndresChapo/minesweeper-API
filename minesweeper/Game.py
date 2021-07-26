@@ -1,5 +1,5 @@
 from minesweeper.MinesweeperGrid import MinesweeperGrid
-from data_access_object import *
+from data_access import *
 
 
 # OK - add game_status

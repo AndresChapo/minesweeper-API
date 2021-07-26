@@ -10,17 +10,13 @@ const resume_gameBtn = document.getElementById('resume_gameBtn');
 const new_gameBtn = document.getElementById('new_gameBtn');
 
 
-// OK - grid variables 
-// OK - func contruya visible grid
-// OK - func que resete el grid
-// OK - css decorar boxes basico
-// OK - func que actualiza
-// OK - func nuevo juego
-// OK - func retomar juego
-// OK - func que informa status del juego
-// - validar func retomar juego
+// OK - documented RESTful API
+// OK - validar func retomar juego
 // - CSS mas lindo
-// - subir a prod
+// - Mensajes de error
+// - Time tracking
+
+
 // Grid content:
 
 class GridGame {

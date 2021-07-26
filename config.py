@@ -8,3 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgresql@localh
 # password admin200
 app.debug = True
 db = SQLAlchemy(app)
+
+# User: desperta_minesweeper
+# Database: desperta_minesweeperbd
+# pass: minesweeper
