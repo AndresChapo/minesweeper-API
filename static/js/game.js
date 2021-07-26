@@ -62,10 +62,9 @@ const drawEmptyBoard = (sizes) => {
         });
     }else{
         for (var i = 0; i < (sizes*sizes); i++) {
-        
             boxes[i] = document.createElement("div");
             boxes[i].id = i;
-            boxes[i].className = "box";
+            boxes[i].className = "box animate__animated animate__bounceInDown";
             superboard.insertAdjacentElement("beforeend", boxes[i]);
             boxes[i].addEventListener('click',boxClicked);
         }
@@ -131,8 +130,10 @@ const print_swepts = (sizes, swept, grid) => {
         if (score == 0){
             boxes[pos].innerText = '';
         }else if(score == 9){
+            boxes[pos].style = 'background-color: var(--emptyColor); color: red;';
             boxes[pos].innerText = 'x';
         }else{
+            boxes[pos].style = 'background-color: var(--emptyColor); color: green;';
             boxes[pos].innerText = score;
         }
     })
@@ -141,7 +142,7 @@ const print_swepts = (sizes, swept, grid) => {
 const print_flags = (sizes, flags) => {
     flags.forEach((flagx, index) =>{
         pos = coordenates_to_id(sizes, flagx[0],flagx[1]);
-        boxes[pos].style = 'background-color: var(--emptyColor);';
+        boxes[pos].style = 'background-color: var(--emptyColor); color: black;';
         boxes[pos].innerText = '?';
     })
 };
@@ -173,6 +174,7 @@ const boxClicked = (e) => {
 
 const deleteBoard = () => {
     boxes.forEach((box, index) =>{
+        //box.className = "box animate__animated animate__backOutDown";
         box.remove();
     });
     boxes = Array.from(document.getElementsByClassName('box'));

@@ -4,22 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minesweeper Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="static/css/game.css">
 </head>
 <body>
     <div class="container">
-        <h1 id="statusText">Time to play!</h1>
-        <div id="new_game_box">
+        <h1 id="statusText" class="animate__animated animate__bounce">Time to play!</h1>
+        <div id="menu">
             <button id="new_gameBtn">New Game</button>
             <input type="number" id="txtSize" value="10">
             <input type="number" id="txtMines" value="10">
-        </div>
-        <div id="id_game_box">
+            <div class="separator"></div>
             <label text="Game N#: -"></label>
             <button id="resume_gameBtn">Resume Game</button>
             <input type="number" id="txtGame_id" value="1">
+            <div class="separator"></div>
+            <button id="flag_onBtn" value="0">Flag OFF</button>
         </div>
-        <button id="flag_onBtn" value="0">Flag OFF</button>
+    </br>
         <div id="id_game">Game N#: 0</div>
         
         <div id="superboard">
