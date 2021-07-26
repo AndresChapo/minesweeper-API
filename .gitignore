@@ -600,3 +600,12 @@ pyvenv.cfg
 .venv
 pip-selfcheck.json
 
+# CPanel stuff
+/logs
+/__pycache__
+/tmp
+/public
+Passengerfile.json
+passenger_wsgi.py
+# Database user and password
+config.py
